@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
 
     'use strict';
 
@@ -46,7 +46,7 @@ window.addEventListener('DOMContentLoaded', function() {
             minutes = Math.floor((t / 1000 / 60) % 60),
             hours = Math.floor((t / 1000 / 60 / 60) % 24),
             days = hours = Math.floor((t / (1000 * 60 * 60 * 24)));
-        
+
         return {
             'total': t,
             'hours': hours,
@@ -54,14 +54,14 @@ window.addEventListener('DOMContentLoaded', function() {
             'seconds': seconds
         };
     }
-    
+
     function setClock(id, endtime) {
         let timer = document.getElementById(id),
             hours = timer.querySelector('.hours'),
             minutes = timer.querySelector('.minutes'),
             seconds = timer.querySelector('.seconds'),
             timeInterval = setInterval(updateClock, 1000);
-            
+
         function updateClock() {
             let t = getTimeRemaining(endtime);
             if (t.hours < 10 && t.hours >= 0) {
@@ -75,11 +75,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 minutes.textContent = t.minutes;
             }
             if (t.seconds < 10 && t.seconds >= 0) {
-               seconds.textContent = '0' + t.seconds;
+                seconds.textContent = '0' + t.seconds;
             } else {
                 seconds.textContent = t.seconds;
             }
-            
+
             if (t.total <= 0) {
                 clearInterval(timeInterval);
                 hours.textContent = '00';
@@ -88,16 +88,45 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-    
+
     setClock('timer', deadLine);
+
+    //modal
+    let more = document.querySelector('.more'),
+        overlay = document.querySelector('.overlay'),
+        close = document.querySelector('.popup-close'),
+        descriprionBtn = document.querySelectorAll('.description-btn');
+
+
+    more.addEventListener('click', function () {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+
+    });
+
+    close.addEventListener('click', function () {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    });
+
+
+    //tabs modal
+
+    function showModal() {
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    descriprionBtn.forEach(function (item) {
+        item.addEventListener('click', function () {
+            showModal();
+        });
+    });
+
+
 });
-
-
-
-
-
-
-
 
 
 
